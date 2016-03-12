@@ -23,7 +23,7 @@ import warning from 'fbjs/lib/warning';
 import React3DInstance from './React3Instance';
 import EventDispatcher from './utils/EventDispatcher';
 import InternalComponent from './InternalComponent';
-import ElementDescriptorContainer from './ElementDescriptorContainer';
+import ElementDescriptors from './ElementDescriptors';
 import React3CompositeComponentWrapper from './React3CompositeComponentWrapper';
 
 import ID_PROPERTY_NAME from './utils/idPropertyName';
@@ -286,8 +286,6 @@ class React3Renderer {
     this.deepestContainerSoFar = null;
     this.nextMountID = 1;
     this.nextReactRootIndex = 0;
-
-    this.threeElementDescriptors = new ElementDescriptorContainer(this).descriptors;
 
     this._highlightElement = document.createElement('div');
     this._highlightCache = null;
@@ -743,7 +741,7 @@ class React3Renderer {
 
     rootImage.parentMarkup = rootMarkup;
 
-    const descriptorForChild = this.threeElementDescriptors[rootImage.elementType];
+    const descriptorForChild = new ElementDescriptors[rootImage.elementType](this);
     descriptorForChild.setParent(rootImage.threeObject, rootMarkup.threeObject);
 
     // all objects now added can be marked as added to scene now!
